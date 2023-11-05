@@ -5,6 +5,17 @@ import { firebase } from '../config';
 const Dashboard = () => {
     const [name, setName] = useState({ firstName: '', lastName: '' });
 
+    //change the password
+    const changePassword = () => {
+        firebase.auth().sendPasswordResetEmail(firebase.auth().currentUser.email)
+        .then(() => {
+            alert("Password reset email sent!")
+        }).catch((error) => {
+            alert(error.message)
+        })
+
+    }
+
     useEffect(() => {
         const currentUser = firebase.auth().currentUser;
 
@@ -36,6 +47,15 @@ const Dashboard = () => {
             <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
                 Hello, {name.firstName} {name.lastName} !
             </Text>
+            <TouchableOpacity
+                onPress={() => {
+                    changePassword();
+                }}
+                style={styles.button}
+            >
+                <Text style={{ fontWeight: 'bold', fontSize: 22 }}>Change Password</Text>
+            </TouchableOpacity>
+
             <TouchableOpacity
                 onPress={() => {
                     firebase.auth().signOut();
