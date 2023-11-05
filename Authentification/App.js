@@ -49,7 +49,7 @@ function App() {
           }}/>
 
         <Stack.Screen 
-          name="Register" 
+          name="Registration" 
           component={Registration} 
           options={{
             headerTitle: () => <Header name="NutriHealth" />,
