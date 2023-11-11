@@ -58,27 +58,30 @@ export default Login;
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        alignItems: 'center',
-        marginTop: 100
+      flex: 1,
+      alignItems: 'center',
+      marginTop: 100,
+      backgroundColor: '#ffffff', // Change the background color to white
     },
     textInput: {
-        paddingTop: 20,
-        paddingBottom: 10,
-        width: 400,
-        fontSize: 20,
-        borderBottomWidth: 1,
-        borderBottomColor: "#000",
-        marginBottom: 10,
-        textAlign: 'center'
+      paddingTop: 20,
+      paddingBottom: 10,
+      width: 400,
+      fontSize: 20,
+      borderBottomWidth: 1,
+      borderBottomColor: '#2ecc71', // Green color for the border
+      marginBottom: 10,
+      textAlign: 'center',
+      color: '#2ecc71', // Green color for the text
     },
     button: {
-        marginTop: 50,
-        height: 70,
-        width: 250,
-        backgroundColor: '#026efd',
+        marginTop: 20, // Reduced margin for a more compact look
+        height: 50, // Adjusted height for a smaller button
+        width: 200, // Adjusted width for a smaller button
+        backgroundColor: '#2ecc71', // Green color for the button
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 50
-    }
-});
+        borderRadius: 25, // Adjusted border radius for a smoother look
+      },
+  });
+  
