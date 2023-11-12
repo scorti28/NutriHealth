@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
       flex: 1,
       alignItems: 'center',
       marginTop: 100,
-      backgroundColor: '#ffffff', // Change the background color to white
+      backgroundColor: '#ffffff'
     },
     textInput: {
       paddingTop: 20,
@@ -90,19 +90,19 @@ const styles = StyleSheet.create({
       width: 400,
       fontSize: 20,
       borderBottomWidth: 1,
-      borderBottomColor: '#2ecc71', // Green color for the border
+      borderBottomColor: '#2ecc71', 
       marginBottom: 10,
       textAlign: 'center',
-      color: '#2ecc71', // Green color for the text
+      color: '#2ecc71'
     },
     button: {
-        marginTop: 20, // Reduced margin for a more compact look
-        height: 50, // Adjusted height for a smaller button
-        width: 200, // Adjusted width for a smaller button
-        backgroundColor: '#2ecc71', // Green color for the button
+        marginTop: 20, 
+        height: 50, 
+        width: 200, 
+        backgroundColor: '#2ecc71', 
         alignItems: 'center',
         justifyContent: 'center',
-        borderRadius: 25, // Adjusted border radius for a smoother look
-      },
+        borderRadius: 25
+      }
   });
   
