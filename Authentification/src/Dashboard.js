@@ -1,89 +1,66 @@
-import { Text, StyleSheet, SafeAreaView, TouchableOpacity } from 'react-native';
+import { StyleSheet, SafeAreaView } from 'react-native';
 import React, { useState, useEffect } from 'react';
+import Header from '../components/Header';
 import { firebase } from '../config';
 
 const Dashboard = () => {
-    const [name, setName] = useState({ firstName: '', lastName: '' });
+  const [name, setName] = useState({ firstName: '', lastName: '' });
 
-    //change the password
-    const changePassword = () => {
-        firebase.auth().sendPasswordResetEmail(firebase.auth().currentUser.email)
-        .then(() => {
-            alert("Password reset email sent!")
-        }).catch((error) => {
-            alert(error.message)
+  useEffect(() => {
+    const currentUser = firebase.auth().currentUser;
+
+    if (currentUser) {
+      firebase
+        .firestore()
+        .collection('users')
+        .doc(currentUser.uid)
+        .get()
+        .then((snapshot) => {
+          if (snapshot.exists) {
+            const userData = snapshot.data();
+            setName({
+              firstName: userData?.firstName || '',
+              lastName: userData?.lastName || '',
+            });
+          } else {
+            console.log("User does not exist!");
+          }
         })
-
+        .catch((error) => {
+          console.error("Error fetching user data:", error);
+        });
     }
+  }, []);
 
-    useEffect(() => {
-        const currentUser = firebase.auth().currentUser;
-
-        if (currentUser) {
-            firebase
-                .firestore()
-                .collection('users')
-                .doc(currentUser.uid)
-                .get()
-                .then((snapshot) => {
-                    if (snapshot.exists) {
-                        const userData = snapshot.data();
-                        setName({
-                            firstName: userData.firstName,
-                            lastName: userData.lastName
-                        });
-                    } else {
-                        console.log("User does not exist!");
-                    }
-                })
-                .catch((error) => {
-                    console.error("Error fetching user data:", error);
-                });
-        }
-    }, []);
-
-    return (
-        <SafeAreaView style={styles.container}>
-            <Text style={{ fontWeight: 'bold', fontSize: 20 }}>
-                Hello, {name.firstName} {name.lastName} !
-            </Text>
-            <TouchableOpacity
-                onPress={() => {
-                    changePassword();
-                }}
-                style={styles.button}
-            >
-                <Text style={{ fontWeight: 'bold', fontSize: 22 }}>Change Password</Text>
-            </TouchableOpacity>
-
-            <TouchableOpacity
-                onPress={() => {
-                    firebase.auth().signOut();
-                }}
-                style={styles.button}
-            >
-                <Text style={{ fontWeight: 'bold', fontSize: 22 }}>Sign Out</Text>
-            </TouchableOpacity>
-        </SafeAreaView>
-    );
+  return (
+    <SafeAreaView style={styles.container}>
+      {firebase.auth().currentUser && (
+        <Header
+          showUserHeader={true}
+          firstName={name.firstName}
+          lastName={name.lastName}
+        />
+      )}
+    </SafeAreaView>
+  );
 };
 
 export default Dashboard;
 
 const styles = StyleSheet.create({
-    container: {
-      flex: 1,
-      alignItems: 'center',
-      marginTop: 100,
-      backgroundColor: '#ffffff'
-    },
-    button: {
-        marginTop: 20, 
-        height: 50, 
-        width: 200, 
-        backgroundColor: '#2ecc71', 
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 25
-      }
-  });
+  container: {
+    flex: 1,
+    alignItems: 'center',
+    marginTop: 100,
+    backgroundColor: '#ffffff'
+  },
+  button: {
+    marginTop: 20,
+    height: 50,
+    width: 200,
+    backgroundColor: '#2ecc71',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 25
+  }
+});
