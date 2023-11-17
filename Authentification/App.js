@@ -1,4 +1,3 @@
-// App.js
 import React, { useState, useEffect, useRef } from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,18 +10,30 @@ import Header from './components/Header';
 const Stack = createStackNavigator();
 
 function App() {
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
-  const userRef = useRef();
+  const [initializing, setInitializing] = useState(false);
+  const [user, setUser] = useState(null);
 
-  function onAuthStateChanged(user) {
-    setUser(user);
+  function onAuthStateChanged(authUser) {
+    if(authUser){
+    console.log(authUser)
+    firebase
+        .firestore()
+        .collection('users')
+        .doc(authUser.uid)
+        .get()
+        .then((snapshot) => {
+          if (snapshot.exists) {
+            const userData = snapshot.data();
+            setUser(userData);
+          }}
+        )
     if (initializing) 
       setInitializing(false);
   }
+}
 
   useEffect(() => {
-    const subscriber = firebase.auth().onAuthStateChanged(onAuthStateChanged);
+    const subscriber = firebase.auth().onAuthStateChanged((authUser) => onAuthStateChanged(authUser)) ;
     return subscriber;
   }, []);
 

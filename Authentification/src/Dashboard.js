@@ -34,13 +34,6 @@ const Dashboard = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      {firebase.auth().currentUser && (
-        <Header
-          showUserHeader={true}
-          firstName={name.firstName}
-          lastName={name.lastName}
-        />
-      )}
     </SafeAreaView>
   );
 };
