@@ -6,8 +6,7 @@ const Header = ({ showUserHeader, firstName, lastName, onSignOut, onChangePasswo
     return (
       <View style={{ flexDirection: 'row', alignItems: 'center' }}>
         <Text style={{ fontSize: 18, fontWeight: 'bold' }}>
-          Hello, 
-          {firstName} {lastName}!
+          Hello, {firstName} {lastName}!
         </Text>
         <TouchableOpacity onPress={onChangePassword} style={{ marginHorizontal: 10 }}>
           <View style={styles.button}>

@@ -14,9 +14,8 @@ function App() {
   const [user, setUser] = useState(null);
 
   function onAuthStateChanged(authUser) {
-    if(authUser){
-    console.log(authUser)
-    firebase
+    if (authUser) {
+      firebase
         .firestore()
         .collection('users')
         .doc(authUser.uid)
@@ -25,16 +24,23 @@ function App() {
           if (snapshot.exists) {
             const userData = snapshot.data();
             setUser(userData);
-          }}
-        )
-    if (initializing) 
+          }
+        })
+        .catch((error) => {
+          console.error('Error fetching user data:', error);
+        })
+        .finally(() => {
+          setInitializing(false);
+        });
+    } else {
+      setUser(null);
       setInitializing(false);
+    }
   }
-}
 
   useEffect(() => {
-    const subscriber = firebase.auth().onAuthStateChanged((authUser) => onAuthStateChanged(authUser)) ;
-    return subscriber;
+    const subscriber = firebase.auth().onAuthStateChanged((authUser) => onAuthStateChanged(authUser));
+    return () => subscriber(); // Unsubscribe on component unmount
   }, []);
 
   const onSignOut = () => {
@@ -42,15 +48,17 @@ function App() {
   };
 
   const onChangePassword = () => {
-    firebase
-      .auth()
-      .sendPasswordResetEmail(firebase.auth().currentUser.email)
-      .then(() => {
-        alert('Password reset email sent!');
-      })
-      .catch((error) => {
-        alert(error.message);
-      });
+    if (firebase.auth().currentUser) {
+      firebase
+        .auth()
+        .sendPasswordResetEmail(firebase.auth().currentUser.email)
+        .then(() => {
+          alert('Password reset email sent!');
+        })
+        .catch((error) => {
+          alert(error.message);
+        });
+    }
   };
 
   if (initializing) 
